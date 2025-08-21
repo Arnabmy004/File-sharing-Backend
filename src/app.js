@@ -1,21 +1,25 @@
-import express from "express"
-import cors from "cors"
+import express from "express";
+import cors from "cors";
 import "./cron.js";
 
+const app = express();
 
-const app = express()
+// ✅ Allow only your deployed frontend
+app.use(cors({
+  origin: process.env.CORS_ORIGIN,  // must be set in .env
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 
-app.use(cors(
-  {  origin: process.env.CORS_ORIGIN || "https://send-files-xi.vercel.app"}
-))
+// Serve temp folder
 app.use("/temp", express.static("public/temp"));
 
-app.use(express.urlencoded({extended: true}))
-app.use(express.json())
+// Body parsers
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-export {app}
-
-
+// Routes
 import router from "./routes/file.routes.js";
+app.use("/api/v1/file", router);
 
-app.use("/api/v1/file",router)
+export { app };
