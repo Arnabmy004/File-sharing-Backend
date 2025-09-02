@@ -1,21 +1,21 @@
-import express from "express";
-import cors from "cors";
-import "./cron.js";
-import router from "./routes/file.routes.js";
+  import express from "express";
+  import cors from "cors";
+  import "./cron.js";
+  import router from "./routes/file.routes.js";
 
-const app = express();
+  const app = express();
 
-app.use(cors(
-  { origin: process.env.CORS_ORIGIN || "https://send-files-xi.vercel.app" }
-));
+  app.use(cors(
+    { origin: process.env.CORS_ORIGIN || "https://file-sharing-front-end.vercel.app" }
+  ));
 
-app.use("/temp", express.static("public/temp"));
+  app.use("/temp", express.static("public/temp"));
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+  app.use(express.json());
 
-// Attach your API routes here
-app.use("/api/v1/file", router);
+  // Attach your API routes here
+  app.use("/api/v1/file", router);
 
-// Export the fully configured app
-export { app };
+  // Export the fully configured app
+  export { app };
